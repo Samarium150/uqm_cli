@@ -1,0 +1,15 @@
+[package]
+name = "umc_qmc"
+version = "0.1.2"
+authors = ["鲁树人 <lu.shuren@um-react.app>"]
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+anyhow = "1.0.95"
+byteorder = "1.5.0"
+itertools = "0.14.0"
+lazy_static = "1.5.0"
+tc_tea = { version = "0.2.1", default-features = false }
+thiserror = "2.0.11"
+umc_utils = { path = "../utils" }

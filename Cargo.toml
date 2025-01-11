@@ -1,3 +1,7 @@
+[workspace]
+resolver = "2"
+members = ["um_crypto/*"]
+
 [package]
 name = "uqm_cli"
 version = "0.1.0"

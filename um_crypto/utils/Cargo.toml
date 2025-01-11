@@ -1,0 +1,10 @@
+[package]
+name = "umc_utils"
+version = "0.1.2"
+edition = "2021"
+license = "Apache-2.0"
+authors = ["鲁树人 <lu.shuren@um-react.app>"]
+
+[dependencies]
+base64 = "0.22.1"
+md-5 = "0.10.6"
