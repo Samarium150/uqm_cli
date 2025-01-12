@@ -81,6 +81,11 @@ impl Cli {
             let mut file = File::open(&task)?;
             let filename = utils::get_filename(&task)?;
             if !filename.contains(".mflac2") {
+                if output != self.input {
+                    let mut target = output.clone();
+                    target.push(filename.clone());
+                    fs::copy(&task, &target)?;
+                }
                 continue;
             }
             let mut buffer = vec![0u8; footer::INITIAL_DETECTION_LEN];
