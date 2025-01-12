@@ -24,6 +24,7 @@ pub fn get_filename(path: &PathBuf) -> Result<String> {
         .expect("Invalid filename"))
 }
 
+// noinspection SpellCheckingInspection
 pub fn load_db(path: &PathBuf) -> Result<HashMap<String, String>> {
     let conn = Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_ONLY)?;
     let mut stmt = conn.prepare("SELECT file_path, ekey FROM audio_file_ekey_table")?;
@@ -31,6 +32,9 @@ pub fn load_db(path: &PathBuf) -> Result<HashMap<String, String>> {
         .query_map([], |row| {
             Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
         })?
-        .collect::<rusqlite::Result<HashMap<_, _>>>()?;
+        .collect::<rusqlite::Result<HashMap<_, _>>>()?
+        .into_iter()
+        .map(|(key, value)| (get_filename(&PathBuf::from(key)).unwrap(), value))
+        .collect();
     Ok(map)
 }

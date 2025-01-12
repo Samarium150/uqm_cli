@@ -80,6 +80,9 @@ impl Cli {
             }
             let mut file = File::open(&task)?;
             let filename = utils::get_filename(&task)?;
+            if !filename.contains(".mflac2") {
+                continue;
+            }
             let mut buffer = vec![0u8; footer::INITIAL_DETECTION_LEN];
             file.seek(SeekFrom::End(-(footer::INITIAL_DETECTION_LEN as i64)))?;
             file.read_exact(&mut buffer)?;
@@ -101,15 +104,15 @@ impl Cli {
                     (0usize, None)
                 }
             };
-            let key = match ekey {
+            let key: Vec<u8> = match ekey {
                 None => match database.get(&filename) {
                     None => {
                         eprintln!("could not find ekey for {}", filename);
                         continue;
                     }
-                    Some(ekey) => ekey.clone(),
+                    Some(ekey) => umc_qmc::ekey::decrypt(ekey)?,
                 },
-                Some(ekey) => ekey,
+                Some(ekey) => umc_qmc::ekey::decrypt(ekey)?,
             };
             let cipher = QMCv2Cipher::new(key)?;
             let mut output = output.clone();
